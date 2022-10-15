@@ -1,8 +1,9 @@
 import React from "react"
+import global from "../../styles/main.module.scss"
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className={global.container}>
       Footer
     </footer>
   )

@@ -40,7 +40,7 @@ const Header = () => {
           <div className="header__search search-header">
             <button className={style.search_btn}></button>
           </div>
-          <ul className="center-header__list flex gap-4 flex-1 justify-between">
+          <ul className="center-header__list flex gap-4 flex-1 items-center justify-between">
             <li className="center-header__item">
               <Link href={"/"}><a className="center-header__link">Бренды</a></Link>
             </li>
@@ -50,8 +50,8 @@ const Header = () => {
             <li className="center-header__item">
               <Link href={"/"}><a className="center-header__link">Услуги</a></Link>
             </li>
-            <li className="center-header__item">
-              <Link href={"/"}><a className="center-header__link">Поддержка</a></Link>
+            <li className="center-header__item bg-red-600 p-2 rounded-sm">
+              <Link href={"/admin-panel"}><a className="center-header__link">Админ-панель</a></Link>
             </li>
             <li className="center-header__item">
               <Link href={"/"}><a className="center-header__link">О компании</a></Link>
