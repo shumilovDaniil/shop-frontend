@@ -1,12 +1,17 @@
 export interface IProduct {
-  id: number
+  id?: number
+  productId?: number
   name: string,
   categoryId: number,
-  categoryName: string,
-  features: string[],
+  categoryName?: string,
+  features?: string[],
   info: string,
   price: number,
-  rating: number
+  rating: number,
+  featureValue: {
+    FeatureId: number,
+    FeatureValue: string
+  }
 }
 
 export interface ICategory {
@@ -21,4 +26,15 @@ export interface IFeature {
   name: string
 }
 
+export type addCategoryType = {
+  name: string,
+  parentCategoryId: number,
+}
 
+export type addProductType = {
+  name: string,
+  categoryId: number,
+  info: string,
+  price: number,
+  rating: number,
+}

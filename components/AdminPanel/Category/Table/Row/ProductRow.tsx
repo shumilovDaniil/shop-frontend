@@ -14,11 +14,9 @@ const ProductRow = (product: IProduct) => {
   const [price, setPrice] = useState(product.price)
   const [rating, setRating] = useState(product.rating)
   const [showMore, setShowMore] = useState(false)
-  const [categories, setCategories] = useState([])
 
   const [deleteProduct] = useDeleteProductMutation()
   const [editProduct] = useEditProductMutation()
-
 
   const handleEdit = async () => {
     const product: IProduct = {
@@ -26,31 +24,15 @@ const ProductRow = (product: IProduct) => {
       name,
       categoryId,
       info,
-      price: Number(price),
-      rating: Number(rating),
+      price,
+      rating,
+      featureValue: {
+        FeatureId: 24,
+        FeatureValue: "sss",
+      },
     }
     await editProduct(product)
 
-
-    try {
-      const res = await fetch("http://shopyshop.somee.com/AdminPanel/EditProduct", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "productId": id,
-          "name": name,
-          "categoryId": categoryId,
-          "info": info,
-          "price": Number(price),
-          "rating": Number(rating),
-        }),
-      })
-        .then(() => product.getProducts())
-    } catch (error) {
-      throw new Error(error)
-    }
     setIsEdit(!isEdit)
   }
 
@@ -58,22 +40,16 @@ const ProductRow = (product: IProduct) => {
     await deleteProduct(id)
   }
 
-  // const getCategories = async () => {
-  //   const res = axios.get(`http://shopyshop.somee.com/Shop/GetCategories`).then(res => {
-  //     setCategories(res.data)
-  //   })
-  // }
-
-  // const getCategoryId = (id) => {
-  //   setCategoryId(id)
-  // }
+  const getCategoryId = (id: number) => {
+    setCategoryId(id)
+  }
 
   return (
     <>
       <tr className="product_item product_col">
-        <td>{product.id}</td>
-        <td className="flex flex-col items-start">
-          <p>{product.name}</p>
+        <td>{id}</td>
+        <td className="flex flex-col items-start justify-center">
+          <p>{name}</p>
           {isEdit && <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -81,35 +57,38 @@ const ProductRow = (product: IProduct) => {
           />}
         </td>
 
-        {/*<td className="flex flex-col items-start">*/}
-        {/*  {product.categoryName}*/}
-        {/*  {isEdit && <CategorySelect categories={categories} getCategoryId={getCategoryId} />}*/}
-        {/*</td>*/}
+        <td className="flex flex-col items-start justify-center">
+          {categoryName}
+          {isEdit && <CategorySelect getCategoryId={getCategoryId} />}
+        </td>
 
         <td className="col_descr flex flex-col">
 
-          <p onClick={() => setShowMore(!showMore)}>{showMore ? product.info :
-            product.info.length > 73 ? product.info.slice(0, 73) + ".." : product.info}</p>
+          <p onClick={() => setShowMore(!showMore)}>
+            {info}
+            {/*{showMore ? info : info.length > 73 ? info.slice(0, 73) + ".." : info}*/}
+          </p>
+
           {isEdit && <textarea value={info} onChange={(e) => setInfo(e.target.value)} id=""
                                cols={25}
                                rows={5}></textarea>}
         </td>
-        <td className="flex flex-col items-start">
-          {product.rating}
+        <td className="flex flex-col items-start justify-center">
+          {rating}
           {isEdit && <input
             type="number" value={rating}
             onChange={(e) => setRating(Number(e.target.value))}
           />}
         </td>
-        <td className="flex flex-col items-start">
-          {product.price}
+        <td className="flex flex-col items-start justify-center">
+          {price}
           {isEdit && <input
             type="text" value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
           />}
         </td>
-        <td className={"inline-block"}>
-          {!isEdit && <button className="btn_red" onClick={() => handleDelete(id)}>Delete</button>}
+        <td className={"flex justify-start"}>
+          {!isEdit && id ? <button className="btn_red" onClick={() => handleDelete(id)}>Delete</button> : ""}
           {
             isEdit ?
               <>

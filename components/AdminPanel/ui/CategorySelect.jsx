@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
+import { useGetCategoriesQuery } from "../../../redux/services/shopApi"
 
-const CategorySelect = ({ categories, getCategoryId }) => {
+const CategorySelect = ({ getCategoryId }) => {
   const [categoryId, setCategoryId] = useState(0)
 
   useEffect(() => {
@@ -8,12 +9,12 @@ const CategorySelect = ({ categories, getCategoryId }) => {
 
     if (id) {
       getCategoryId(id)
-      console.log(id, 1)
     } else {
       getCategoryId(null)
     }
   }, [categoryId])
 
+  const { data: categories, isLoading } = useGetCategoriesQuery()
 
   return (
     <>
