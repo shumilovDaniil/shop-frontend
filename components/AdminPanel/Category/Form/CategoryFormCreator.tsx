@@ -1,39 +1,29 @@
 import React, { useState } from "react"
 import CategorySelect from "../../ui/CategorySelect"
+import { useAddCategoryMutation } from "../../../../redux/services/shopApi"
+import { addCategoryType } from "../../../../redux/types"
 
 const CategoryFormCreator = () => {
   const [isShow, setIsShow] = useState(false)
   const [name, setName] = useState("")
-  const [error, setError] = useState({ isError: false, errorInfo: [] })
   const [categoryId, setCategoryId] = useState(0)
 
-  const createCategory = async (e, name, categoryId) => {
+  const [addCategory] = useAddCategoryMutation()
+
+  const createCategory = async (e: React.FormEvent<HTMLFormElement>, name: string, categoryId: number) => {
     e.preventDefault()
 
+    const category = {
+      name,
+      parentCategoryId: categoryId,
+    }
+
     if (name) {
-      const res = await fetch("http://shopyshop.somee.com/AdminPanel/CreateCategory", {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          parentCategoryId: categoryId,
-        }),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(() => getCategories())
-    } else {
-      setError({
-        isError: true, errorInfo: [{
-          name: name || typeof name,
-          categoryId: categoryId || typeof categoryId,
-        }],
-      })
+      await addCategory(category)
     }
   }
 
-  const getCategoryId = (id) => {
+  const getCategoryId = (id: number) => {
     setCategoryId(id)
   }
 
@@ -48,19 +38,10 @@ const CategoryFormCreator = () => {
           </div>
           <div>
             <span>Родительская категория</span>
-            <CategorySelect categories={categories} getCategoryId={getCategoryId} />
+            <CategorySelect getCategoryId={getCategoryId} />
           </div>
         </div>
         <button className="btn_green">Создать категорию</button>
-        {error.isError ? error.errorInfo.map((error, idx) => {
-          return (
-            <div key={error.name + idx}>
-              <span>Ошибка!</span>
-              <span>name: {error.name}</span>
-              <span>parentName: {error.parentName}</span>
-            </div>
-          )
-        }) : ""}
       </form>
       }
     </div>

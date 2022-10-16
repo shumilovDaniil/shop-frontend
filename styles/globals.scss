@@ -16,6 +16,11 @@ input, textarea, select {
   flex: 0 1 300px;
 }
 
+.form_wrapper {
+  min-width: 320px;
+
+}
+
 .flex {
   display: flex;
   gap: 20px;
