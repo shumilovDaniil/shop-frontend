@@ -7,7 +7,7 @@ import ProductFormCreator from "./Product/Form/ProductFormCreator"
 const AdminPanel = () => {
   return (
     <div className="p-4 flex">
-      <div className="forms_wrapper flex flex-col border-r-4 border-blue-600 pr-4">
+      <div className="forms_wrapper flex flex-col pr-4">
         <CategoryFormCreator />
         <ProductFormCreator />
       </div>

@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import CategorySelect from "../../ui/CategorySelect"
 import { useAddCategoryMutation } from "../../../../redux/services/shopApi"
-import { addCategoryType } from "../../../../redux/types"
+import { AddCategoryType } from "../../../../redux/types"
 
 const CategoryFormCreator = () => {
-  const [isShow, setIsShow] = useState(false)
+  const [isShow, setIsShow] = useState(true)
   const [name, setName] = useState("")
   const [categoryId, setCategoryId] = useState(0)
 

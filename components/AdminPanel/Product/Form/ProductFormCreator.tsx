@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import CategorySelect from "../../ui/CategorySelect"
 import { useAddProductMutation } from "../../../../redux/services/shopApi"
-import { addProductType } from "../../../../redux/types"
+import { AddProductType } from "../../../../redux/types"
 
 const ProductFormCreator = () => {
-  const [isShow, setIsShow] = useState(false)
+  const [isShow, setIsShow] = useState(true)
   const [name, setName] = useState("")
   const [categoryId, setCategoryId] = useState(0)
   const [description, setDescription] = useState("")
@@ -18,7 +18,7 @@ const ProductFormCreator = () => {
 
     if (name && description && price && rating) {
       console.log(1)
-      const product: addProductType = {
+      const product: AddProductType = {
         name,
         categoryId: Number(categoryId),
         info: description,

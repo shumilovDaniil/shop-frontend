@@ -1,30 +1,32 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { addCategoryType, addProductType, ICategory, IFeature, IProduct } from "../types"
+import { AddProductType, IProduct } from "../types"
+import { API, baseUrl } from "../../api/endpoints"
+import { AddCategoryType, ICategory, ICategoryFeature } from "../../types/categories.types"
 
 export const shopApi = createApi({
   reducerPath: "shopApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://shopyshop.somee.com/" }),
+  baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ["Categories", "Products"],
 
   endpoints: (builder) => ({
     // category
     getCategories: builder.query<ICategory[], void>({
-      query: () => "Shop/GetCategories",
+      query: () => API.getCategoriesTree,
       providesTags: ["Categories"],
     }),
 
-    addCategory: builder.mutation<void, addCategoryType>({
+    addCategory: builder.mutation<void, AddCategoryType>({
       query: (category) => ({
-        url: `AdminPanel/CreateCategory`,
+        url: API.addCategory,
         method: "POST",
         body: category,
       }),
       invalidatesTags: ["Categories"],
     }),
 
-    createCategoryFeature: builder.mutation<void, IFeature>({
+    createCategoryFeature: builder.mutation<void, ICategoryFeature>({
       query: (feature) => ({
-        url: "AdminPanel/CreateCategoryFeatures",
+        url: API.createCategoryFeature,
         method: "POST",
         body: feature,
       }),
@@ -33,7 +35,7 @@ export const shopApi = createApi({
 
     deleteCategory: builder.mutation<void, number>({
       query: (id) => ({
-        url: `AdminPanel/DeleteCategory/${id}`,
+        url: `${API.deleteCategory}${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Categories"],
@@ -41,13 +43,13 @@ export const shopApi = createApi({
 
     // product
     getProducts: builder.query<IProduct[], void>({
-      query: () => "Shop/GetProducts",
+      query: () => API.getProducts,
       providesTags: ["Products"],
     }),
 
-    addProduct: builder.mutation<void, addProductType>({
+    addProduct: builder.mutation<void, AddProductType>({
       query: (product) => ({
-        url: `AdminPanel/CreateProduct`,
+        url: API.addProduct,
         method: "POST",
         body: product,
       }),
@@ -56,7 +58,7 @@ export const shopApi = createApi({
 
     editProduct: builder.mutation<void, IProduct>({
       query: (product) => ({
-        url: `AdminPanel/EditProduct`,
+        url: API.editProduct,
         method: "PUT",
         body: product,
       }),
@@ -65,7 +67,7 @@ export const shopApi = createApi({
 
     deleteProduct: builder.mutation<void, number>({
       query: (id) => ({
-        url: `AdminPanel/DeleteProduct/${id}`,
+        url: API.deleteProduct,
         method: "DELETE",
       }),
       invalidatesTags: ["Products"],

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import CategorySelect from "../../../ui/CategorySelect"
 import { IProduct } from "../../../../../redux/types"
 import { useDeleteProductMutation, useEditProductMutation } from "../../../../../redux/services/shopApi"
+import FeatureEditor from "../../../ui/FeatureEditor"
 
 const ProductRow = (product: IProduct) => {
   const [isEdit, setIsEdit] = useState(false)
@@ -58,11 +59,11 @@ const ProductRow = (product: IProduct) => {
         </td>
 
         <td className="flex flex-col items-start justify-center">
-          {categoryName}
+          {categoryName} ({categoryId})
           {isEdit && <CategorySelect getCategoryId={getCategoryId} />}
         </td>
 
-        <td className="col_descr flex flex-col">
+        <td className="col_descr flex flex-col justify-center">
 
           <p onClick={() => setShowMore(!showMore)}>
             {info}
@@ -83,9 +84,19 @@ const ProductRow = (product: IProduct) => {
         <td className="flex flex-col items-start justify-center">
           {price}
           {isEdit && <input
-            type="text" value={price}
+            type="number" value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
           />}
+        </td>
+        <td className="inline-block">
+          {features?.map((feature, idx) => {
+            return (
+              <div key={`${feature.name}_${idx}`}>
+                <span>{feature.name} = </span><span>{feature.value}</span>
+                {isEdit && <FeatureEditor {...feature} />}
+              </div>
+            )
+          })}
         </td>
         <td className={"flex justify-start"}>
           {!isEdit && id ? <button className="btn_red" onClick={() => handleDelete(id)}>Delete</button> : ""}

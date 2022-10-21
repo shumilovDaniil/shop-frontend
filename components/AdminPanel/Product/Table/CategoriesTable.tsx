@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import CategoryRow from "./Row/CategoryRow"
 import { useGetCategoriesQuery } from "../../../../redux/services/shopApi"
-import { ICategory } from "../../../../redux/types"
+import { ICategory } from "../../../../types/categories.types"
 
 const CategoriesTable = () => {
   const [isShow, setIsShow] = useState(true)
@@ -12,17 +12,14 @@ const CategoriesTable = () => {
       <h2 className="cursor-pointer btn_blue inline-block" onClick={() => setIsShow(!isShow)}>Список
         категорий</h2>
 
-      {isShow && <table className="table categories">
-        <thead className="product_col">
-        <tr className="product_item product_col">
-          <th>id</th>
-          <th>Категория</th>
-          <th>Родительская категория</th>
-          <th>Параметры</th>
-          <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody className="product_col">
+      {isShow && <div>
+        <div className="flex-table flex-table--top justify-between text-white p-2 ">
+          <div className="flex-table_column">id</div>
+          <div className="flex-table_column">Категория</div>
+          <div className="flex-table_column">Родительская категория</div>
+          <div className="flex-table_column">Параметры</div>
+          <div className="flex-table_column">Действия</div>
+        </div>
         {categories?.map((category: ICategory) => {
           return (
             <CategoryRow
@@ -32,8 +29,7 @@ const CategoriesTable = () => {
             />
           )
         })}
-        </tbody>
-      </table>}
+      </div>}
     </div>
   )
 }

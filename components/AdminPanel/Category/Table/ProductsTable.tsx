@@ -19,6 +19,7 @@ const ProductsTable = () => {
           <th>Описание</th>
           <th>Рейтинг</th>
           <th>Цена</th>
+          <th>Параметры</th>
           <th>Действия</th>
         </tr>
         </thead>

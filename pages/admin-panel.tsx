@@ -9,7 +9,6 @@ const AdminPanelPage = () => {
     <>
       <Header />
       <AdminPanel />
-
       <Footer />
     </>
   )

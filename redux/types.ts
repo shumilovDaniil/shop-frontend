@@ -14,27 +14,11 @@ export interface IProduct {
   }
 }
 
-export interface ICategory {
-  name: string,
-  categoryId: number,
-  parentCategoryId: null,
-  features: IFeature[]
-}
-
-export interface IFeature {
-  categoryId?: number
-  name: string
-}
-
-export type addCategoryType = {
-  name: string,
-  parentCategoryId: number,
-}
-
-export type addProductType = {
+export type AddProductType = {
   name: string,
   categoryId: number,
   info: string,
   price: number,
   rating: number,
 }
+

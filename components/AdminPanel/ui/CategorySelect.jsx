@@ -6,7 +6,7 @@ const CategorySelect = ({ getCategoryId }) => {
 
   useEffect(() => {
     const id = Number(categoryId)
-
+    
     if (id) {
       getCategoryId(id)
     } else {
@@ -22,7 +22,7 @@ const CategorySelect = ({ getCategoryId }) => {
         onChange={(e) => setCategoryId(e.target.value)}
       >
         <option value={null} defaultChecked>Без категории</option>
-        {categories.map((category) => {
+        {categories?.map((category) => {
           return (
             <option
               key={category.categoryId}
