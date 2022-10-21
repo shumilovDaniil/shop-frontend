@@ -3,7 +3,7 @@ export interface ICategory {
   categoryId: number,
   parentCategoryId: null,
   parentCategory: null | number,
-  childCategories: ICategoryChild[],
+  childCategories: ICategoryChild[] | [],
   features: ICategoryFeature[],
 }
 
@@ -32,5 +32,5 @@ export interface ICategoryParent {
 
 export type AddCategoryType = {
   name: string,
-  parentCategoryId: number,
+  parentCategoryId: number | null,
 }

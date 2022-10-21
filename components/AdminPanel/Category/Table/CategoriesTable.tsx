@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import CategoryRow from "./Row/CategoryRow"
-import { useGetCategoriesQuery } from "../../../../redux/services/shopApi"
+import { useGetCategoriesTreeQuery } from "../../../../redux/services/shopApi"
 import { ICategory } from "../../../../types/categories.types"
 
 const CategoriesTable = () => {
   const [isShow, setIsShow] = useState(true)
-  const { data: categories, isLoading } = useGetCategoriesQuery()
+  const { data: categories, isLoading } = useGetCategoriesTreeQuery()
 
   return (
     <div>

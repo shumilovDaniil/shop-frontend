@@ -1,18 +1,19 @@
 import React from "react"
 import CategoryFormCreator from "./Category/Form/CategoryFormCreator"
-import ProductsTable from "./Category/Table/ProductsTable"
-import CategoriesTable from "./Product/Table/CategoriesTable"
+import ProductsTable from "./Product/Table/ProductsTable"
+import CategoriesTable from "./Category/Table/CategoriesTable"
 import ProductFormCreator from "./Product/Form/ProductFormCreator"
+import style from "./AdminPanel.module.scss"
 
 const AdminPanel = () => {
   return (
-    <div className="p-4 flex">
-      <div className="forms_wrapper flex flex-col pr-4">
+    <div className={style.wrapper}>
+      <div className={style.form}>
         <CategoryFormCreator />
         <ProductFormCreator />
       </div>
 
-      <div className="flex gap-2 flex-col w-full">
+      <div className={style.table}>
         <ProductsTable />
         <CategoriesTable />
       </div>

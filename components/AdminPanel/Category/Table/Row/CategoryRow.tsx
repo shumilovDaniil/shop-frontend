@@ -1,16 +1,17 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import { useCreateCategoryFeatureMutation, useDeleteCategoryMutation } from "../../../../../redux/services/shopApi"
-import { ICategory, ICategoryChild, ICategoryFeature } from "../../../../../types/categories.types"
-import CategoryRowChild from "../../../Category/Table/Row/CategoryRowChild"
-import { MdExpandMore, MdExpandLess } from "react-icons/md"
+import { ICategory, ICategoryChild, ICategoryFeature, ICategoryParent } from "../../../../../types/categories.types"
+import { MdExpandLess, MdExpandMore } from "react-icons/md"
 
 interface CategoryRowProps {
   name: string
-  categoryId: number
-  parentCategoryId: null
+  categoryId?: number
+  id: number
+  parentCategory: ICategoryParent | null
+  parentCategoryId: number | null
   features: ICategoryFeature[]
   categories: ICategory[]
-  childCategories: ICategoryChild[]
+  childCategories: ICategoryChild[] | [],
 }
 
 const CategoryRow: FC<CategoryRowProps> = ({
@@ -18,8 +19,10 @@ const CategoryRow: FC<CategoryRowProps> = ({
                                              features,
                                              categoryId,
                                              name,
+                                             parentCategory,
                                              parentCategoryId,
                                              childCategories,
+                                             id,
                                            }) => {
   const [isEdit, setIsEdit] = useState(false)
   const [featuresInput, setFeaturesInput] = useState("")
@@ -63,14 +66,15 @@ const CategoryRow: FC<CategoryRowProps> = ({
       <div className="flex justify-between items-center">
         <div className="flex-table_column flex">
 
-          <span>{categoryId}</span>
+          <span>{categoryId || id}</span>
           {childCategories.length > 0 &&
             <span className="text-2xl ml-4">
               {isShow ?
                 <button onClick={() => setIsShow(!isShow)}><MdExpandLess /></button>
                 :
                 <button onClick={() => setIsShow(!isShow)}><MdExpandMore /></button>}
-            </span>}
+            </span>
+          }
 
         </div>
         <div className="flex-table_column">{name}</div>
@@ -96,14 +100,14 @@ const CategoryRow: FC<CategoryRowProps> = ({
           {isEdit ? <div className="flex flex-col">
               <button
                 className="btn_green"
-                onClick={() => handleAddFeature(categoryId)}>Save
+                onClick={() => handleAddFeature(categoryId || id)}>Save
               </button>
               <button className="btn_gray" onClick={() => setIsEdit(!isEdit)}>Cancel</button>
             </div>
             :
             <div>
-              <button className="btn_red mb-2" onClick={() => handleDelete(categoryId)}>Delete</button>
-              <button className="btn_blue" onClick={() => handleAddFeature(categoryId)}>Add
+              <button className="btn_red mb-2" onClick={() => handleDelete(categoryId || id)}>Delete</button>
+              <button className="btn_blue" onClick={() => handleAddFeature(categoryId || id)}>Add
                 features
               </button>
             </div>}
@@ -111,7 +115,7 @@ const CategoryRow: FC<CategoryRowProps> = ({
       </div>
       {childCategories.length > 0 && isShow ? childCategories.map((category) => {
         return (
-          <CategoryRowChild key={category.id} categories={categories} {...category} />
+          <CategoryRow key={category.id} {...category} />
         )
       }) : ""}
     </div>

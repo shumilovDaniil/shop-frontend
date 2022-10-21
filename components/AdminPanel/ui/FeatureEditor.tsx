@@ -1,13 +1,14 @@
 import React, { useState } from "react"
+import { IProductFeatures } from "../../../types/products.types"
 
-const FeatureEditor = (feature: ProductFeature) => {
-  const [name, setName] = useState("")
-  const [value, setValue] = useState("")
+const FeatureEditor = ({ name, value }: IProductFeatures) => {
+  const [fName, setFName] = useState(name)
+  const [fValue, setFValue] = useState(value)
 
   return (
     <div className="flex">
-      <input onChange={(e) => setName(e.target.value)} value={feature.name} type="text" />
-      <input onChange={(e) => setValue(e.target.value)} value={feature.value} type="text" />
+      <input onChange={(e) => setFName(e.target.value)} value={fName} type="text" />
+      <input onChange={(e) => setFValue(e.target.value)} value={fValue} type="text" />
     </div>
   )
 }

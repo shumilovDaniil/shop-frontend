@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import CategorySelect from "../../../ui/CategorySelect"
-import { IProduct } from "../../../../../redux/types"
 import { useDeleteProductMutation, useEditProductMutation } from "../../../../../redux/services/shopApi"
 import FeatureEditor from "../../../ui/FeatureEditor"
+import { IProduct } from "../../../../../types/products.types"
 
 const ProductRow = (product: IProduct) => {
   const [isEdit, setIsEdit] = useState(false)
   const [id, setId] = useState(product.id)
   const [name, setName] = useState(product.name)
-  const [categoryId, setCategoryId] = useState(product.categoryId)
+  const [categoryId, setCategoryId] = useState<number | null>(product.categoryId)
   const [categoryName, setCategoryName] = useState(product.categoryName)
   const [features, setFeatures] = useState(product.features)
   const [info, setInfo] = useState(product.info)
@@ -41,7 +41,7 @@ const ProductRow = (product: IProduct) => {
     await deleteProduct(id)
   }
 
-  const getCategoryId = (id: number) => {
+  const getCategoryId = (id: number | null) => {
     setCategoryId(id)
   }
 
@@ -66,8 +66,8 @@ const ProductRow = (product: IProduct) => {
         <td className="col_descr flex flex-col justify-center">
 
           <p onClick={() => setShowMore(!showMore)}>
-            {info}
-            {/*{showMore ? info : info.length > 73 ? info.slice(0, 73) + ".." : info}*/}
+
+            {showMore ? info : info.length > 63 ? info.slice(0, 63) + ".." : info}
           </p>
 
           {isEdit && <textarea value={info} onChange={(e) => setInfo(e.target.value)} id=""
@@ -82,7 +82,7 @@ const ProductRow = (product: IProduct) => {
           />}
         </td>
         <td className="flex flex-col items-start justify-center">
-          {price}
+          {price.toLocaleString("ru")}
           {isEdit && <input
             type="number" value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
@@ -92,7 +92,8 @@ const ProductRow = (product: IProduct) => {
           {features?.map((feature, idx) => {
             return (
               <div key={`${feature.name}_${idx}`}>
-                <span>{feature.name} = </span><span>{feature.value}</span>
+                <span>{feature.name} = </span>
+                <span>{feature.value}</span>
                 {isEdit && <FeatureEditor {...feature} />}
               </div>
             )

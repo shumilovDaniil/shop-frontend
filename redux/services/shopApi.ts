@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { AddProductType, IProduct } from "../types"
 import { API, baseUrl } from "../../api/endpoints"
 import { AddCategoryType, ICategory, ICategoryFeature } from "../../types/categories.types"
+import { AddProductType, IProduct } from "../../types/products.types"
 
 export const shopApi = createApi({
   reducerPath: "shopApi",
@@ -11,6 +11,11 @@ export const shopApi = createApi({
   endpoints: (builder) => ({
     // category
     getCategories: builder.query<ICategory[], void>({
+      query: () => API.getCategories,
+      providesTags: ["Categories"],
+    }),
+
+    getCategoriesTree: builder.query<ICategory[], void>({
       query: () => API.getCategoriesTree,
       providesTags: ["Categories"],
     }),
@@ -81,8 +86,9 @@ export const {
   useEditProductMutation,
   useDeleteProductMutation,
 
-  useAddCategoryMutation,
   useGetCategoriesQuery,
+  useGetCategoriesTreeQuery,
+  useAddCategoryMutation,
   useDeleteCategoryMutation,
   useCreateCategoryFeatureMutation,
 } = shopApi

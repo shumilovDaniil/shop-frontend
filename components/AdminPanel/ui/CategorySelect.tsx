@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { useGetCategoriesQuery } from "../../../redux/services/shopApi"
 
-const CategorySelect = ({ getCategoryId }) => {
+interface CategorySelectProps {
+  getCategoryId: (id: number | null) => void
+}
+
+const CategorySelect: FC<CategorySelectProps> = ({ getCategoryId }) => {
   const [categoryId, setCategoryId] = useState(0)
 
   useEffect(() => {
-    const id = Number(categoryId)
-    
-    if (id) {
-      getCategoryId(id)
-    } else {
-      getCategoryId(null)
-    }
+    categoryId ? getCategoryId(categoryId) : getCategoryId(null)
   }, [categoryId])
 
   const { data: categories, isLoading } = useGetCategoriesQuery()
@@ -19,9 +17,9 @@ const CategorySelect = ({ getCategoryId }) => {
   return (
     <>
       <select
-        onChange={(e) => setCategoryId(e.target.value)}
+        onChange={(e) => setCategoryId(Number(e.target.value))}
       >
-        <option value={null} defaultChecked>Без категории</option>
+        <option defaultChecked>Без категории</option>
         {categories?.map((category) => {
           return (
             <option

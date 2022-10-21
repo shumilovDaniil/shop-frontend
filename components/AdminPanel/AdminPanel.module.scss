@@ -1,0 +1,12 @@
+.wrapper {
+  @apply p-4 flex
+}
+
+.form {
+  flex: 0 1 300px;
+  @apply flex flex-col pr-4
+}
+
+.table {
+  @apply flex gap-2 flex-col w-full
+}

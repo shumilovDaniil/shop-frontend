@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import CategorySelect from "../../ui/CategorySelect"
 import { useAddProductMutation } from "../../../../redux/services/shopApi"
-import { AddProductType } from "../../../../redux/types"
+import { AddProductType } from "../../../../types/products.types"
+import global from "./../../../../styles/main.module.scss"
 
 const ProductFormCreator = () => {
   const [isShow, setIsShow] = useState(true)
   const [name, setName] = useState("")
-  const [categoryId, setCategoryId] = useState(0)
+  const [categoryId, setCategoryId] = useState<number | null>(0)
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState(0)
   const [rating, setRating] = useState(0)
@@ -17,7 +18,6 @@ const ProductFormCreator = () => {
     e.preventDefault()
 
     if (name && description && price && rating) {
-      console.log(1)
       const product: AddProductType = {
         name,
         categoryId: Number(categoryId),
@@ -26,17 +26,23 @@ const ProductFormCreator = () => {
         rating: Number(rating),
       }
       addProduct(product)
+
+      setName("")
+      setCategoryId(0)
+      setDescription("")
+      setPrice(0)
+      setRating(0)
     }
   }
 
-  const getCategoryId = (id: number) => {
+  const getCategoryId = (id: number | null) => {
     setCategoryId(id)
   }
 
   return (
-    <div className="form_wrapper">
-      <button className="btn_blue" onClick={() => setIsShow(!isShow)}>Создание продукта</button>
-      {isShow && <form className="form" onSubmit={(e) => createProduct(e)}>
+    <div className={global.form_wrapper}>
+      <button className={global.btn_blue__full} onClick={() => setIsShow(!isShow)}>Создание продукта</button>
+      {isShow && <form className={global.form} onSubmit={(e) => createProduct(e)}>
         <div className="mb-3">
           <div>
             <span>Название продукта</span>
@@ -59,7 +65,7 @@ const ProductFormCreator = () => {
             <input onChange={(e) => setRating(Number(e.target.value))} value={rating} type="number" />
           </div>
         </div>
-        <button className="btn_green">Создать товар</button>
+        <button className={global.btn_green}>Создать товар</button>
       </form>}
     </div>
   )
