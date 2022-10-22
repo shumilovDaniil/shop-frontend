@@ -25,21 +25,33 @@ const CategoryFormCreator = () => {
 
   return (
     <div>
-      <button className={global.btn_blue__full} onClick={() => setIsShow(!isShow)}>Создание категории</button>
-      {isShow && <form className={global.form} onSubmit={(e) => createCategory(e, { name, parentCategoryId })}>
-        <div className="mb-3">
-          <div>
-            <span>Название категории</span>
-            <input onChange={(el) => setName(el.target.value)} value={name} type="text" />
+      <button
+        className={`${global.btn} ${global.btn__full}`}
+        onClick={() => setIsShow(!isShow)}>
+        Создание категории
+      </button>
+
+      {isShow &&
+        <form
+          className={global.form}
+          onSubmit={(e) => createCategory(e, { name, parentCategoryId })}
+        >
+          <div className="mb-3">
+            <div>
+              <span>Название категории</span>
+              <input
+                onChange={(el) => setName(el.target.value)}
+                value={name}
+                type="text"
+              />
+            </div>
+            <div>
+              <span>Родительская категория</span>
+              <CategorySelect getCategoryId={getCategoryId} />
+            </div>
           </div>
-          <div>
-            <span>Родительская категория</span>
-            <CategorySelect getCategoryId={getCategoryId} />
-          </div>
-        </div>
-        <button className={global.btn_green}>Создать категорию</button>
-      </form>
-      }
+          <button className={global.btn_green}>Создать категорию</button>
+        </form>}
     </div>
   )
 }

@@ -41,7 +41,8 @@ const ProductFormCreator = () => {
 
   return (
     <div className={global.form_wrapper}>
-      <button className={global.btn_blue__full} onClick={() => setIsShow(!isShow)}>Создание продукта</button>
+      <button className={`${global.btn} ${global.btn__full}`} onClick={() => setIsShow(!isShow)}>Создание продукта
+      </button>
       {isShow && <form className={global.form} onSubmit={(e) => createProduct(e)}>
         <div className="mb-3">
           <div>

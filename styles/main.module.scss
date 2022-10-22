@@ -23,12 +23,15 @@
   min-width: 320px;
 }
 
-.btn_blue {
-  @apply bg-blue-500  hover:bg-blue-400 text-white py-1 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded text-xs
-}
+.btn {
+  background-color: #1A1A25;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
 
-.btn_blue__full {
-  @apply bg-blue-500 w-full hover:bg-blue-400 text-white p-2 border-b-4 border-blue-700 hover:border-blue-500 rounded text-xl
+  &__full {
+    width: 100%;
+  }
 }
 
 .btn_green {

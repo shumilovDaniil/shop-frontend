@@ -3,6 +3,7 @@ import CategorySelect from "../../../ui/CategorySelect"
 import { useDeleteProductMutation, useEditProductMutation } from "../../../../../redux/services/shopApi"
 import FeatureEditor from "../../../ui/FeatureEditor"
 import { IProduct } from "../../../../../types/products.types"
+import global from "../../../../../styles/main.module.scss"
 
 const ProductRow = (product: IProduct) => {
   const [isEdit, setIsEdit] = useState(false)
@@ -51,11 +52,12 @@ const ProductRow = (product: IProduct) => {
         <td>{id}</td>
         <td className="flex flex-col items-start justify-center">
           <p>{name}</p>
-          {isEdit && <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-          />}
+          {isEdit &&
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+            />}
         </td>
 
         <td className="flex flex-col items-start justify-center">
@@ -64,30 +66,37 @@ const ProductRow = (product: IProduct) => {
         </td>
 
         <td className="col_descr flex flex-col justify-center">
-
           <p onClick={() => setShowMore(!showMore)}>
-
             {showMore ? info : info.length > 63 ? info.slice(0, 63) + ".." : info}
           </p>
-
-          {isEdit && <textarea value={info} onChange={(e) => setInfo(e.target.value)} id=""
-                               cols={25}
-                               rows={5}></textarea>}
+          {isEdit &&
+            <textarea value={info}
+                      onChange={(e) => setInfo(e.target.value)}
+                      cols={25}
+                      rows={5}>
+            </textarea>}
         </td>
+
         <td className="flex flex-col items-start justify-center">
           {rating}
-          {isEdit && <input
-            type="number" value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          />}
+          {isEdit &&
+            <input
+              type="number"
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
+            />}
         </td>
+
         <td className="flex flex-col items-start justify-center">
           {price.toLocaleString("ru")}
-          {isEdit && <input
-            type="number" value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-          />}
+          {isEdit &&
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />}
         </td>
+
         <td className="inline-block">
           {features?.map((feature, idx) => {
             return (
@@ -99,20 +108,24 @@ const ProductRow = (product: IProduct) => {
             )
           })}
         </td>
+
         <td className={"flex justify-start"}>
-          {!isEdit && id ? <button className="btn_red" onClick={() => handleDelete(id)}>Delete</button> : ""}
-          {
-            isEdit ?
-              <>
-                <button
-                  className="btn_green"
-                  onClick={() => handleEdit()}>Save
-                </button>
-                <button className="btn_gray ml-2" onClick={() => setIsEdit(!isEdit)}>Cancel</button>
-              </>
-              :
-              <button className="btn_orange ml-2" onClick={() => setIsEdit(!isEdit)}>Edit</button>
-          }
+          {!isEdit && id ?
+            <button
+              className={global.btn_red}
+              onClick={() => handleDelete(id)}>
+              Delete
+            </button> : ""}
+          {isEdit ?
+            <>
+              <button
+                className={global.btn_orange}
+                onClick={() => handleEdit()}>Save
+              </button>
+              <button className={global.btn_gray} onClick={() => setIsEdit(!isEdit)}>Cancel</button>
+            </>
+            :
+            <button className={global.btn_green} onClick={() => setIsEdit(!isEdit)}>Edit</button>}
         </td>
       </tr>
     </>

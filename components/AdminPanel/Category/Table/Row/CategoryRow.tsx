@@ -2,6 +2,7 @@ import React, { FC, useState } from "react"
 import { useCreateCategoryFeatureMutation, useDeleteCategoryMutation } from "../../../../../redux/services/shopApi"
 import { ICategory, ICategoryChild, ICategoryFeature, ICategoryParent } from "../../../../../types/categories.types"
 import { MdExpandLess, MdExpandMore } from "react-icons/md"
+import global from "./../../../../../styles/main.module.scss"
 
 interface CategoryRowProps {
   name: string
@@ -31,7 +32,7 @@ const CategoryRow: FC<CategoryRowProps> = ({
   const [addFeature] = useCreateCategoryFeatureMutation()
 
   const getCategoryParent = (id: number) => {
-    const categoryParent = categories.find((category: ICategory) => category.categoryId === id)
+    const categoryParent = categories?.find((category: ICategory) => category.categoryId === id)
     return categoryParent?.name
   }
 
@@ -65,7 +66,6 @@ const CategoryRow: FC<CategoryRowProps> = ({
     <div className="flex-table flex flex-col">
       <div className="flex justify-between items-center">
         <div className="flex-table_column flex">
-
           <span>{categoryId || id}</span>
           {childCategories.length > 0 &&
             <span className="text-2xl ml-4">
@@ -73,51 +73,58 @@ const CategoryRow: FC<CategoryRowProps> = ({
                 <button onClick={() => setIsShow(!isShow)}><MdExpandLess /></button>
                 :
                 <button onClick={() => setIsShow(!isShow)}><MdExpandMore /></button>}
-            </span>
-          }
-
+            </span>}
         </div>
         <div className="flex-table_column">{name}</div>
         <div className="flex-table_column">{parentCategoryId ? getCategoryParent(parentCategoryId) : ""}</div>
         <div className="flex-table_column">
           {features?.map((feature: ICategoryFeature) => {
             return (
-              <span className="bg-blue-500 px-2 text-white"
-                    key={`${feature.name}_`}>{feature.name}</span>
+              <span
+                className="bg-blue-500 px-2 text-white"
+                key={`${feature.name}_`}
+              >
+                {feature.name}
+              </span>
             )
           })}
-
-          {
-            isEdit && <div>
-              <span className="text-black p-1 inline-block mb-2 bg-amber-300">Параметры (через запятую)</span>
-              <textarea value={featuresInput} onChange={(e) => setFeaturesInput(e.target.value)} id=""
-                        cols={40}
-                        rows={3}></textarea>
-            </div>
-          }
+          {isEdit && <div>
+            <span className="text-black p-1 inline-block mb-2 bg-amber-300">Параметры (через запятую)</span>
+            <textarea onChange={(e) => setFeaturesInput(e.target.value)}
+                      value={featuresInput}
+                      cols={40}
+                      rows={3}>
+            </textarea>
+          </div>}
         </div>
         <div className="flex-table_column">
-          {isEdit ? <div className="flex flex-col">
+          {isEdit ?
+            <div className="flex flex-row gap-2 ml-2">
               <button
-                className="btn_green"
-                onClick={() => handleAddFeature(categoryId || id)}>Save
+                className={global.btn_green}
+                onClick={() => handleAddFeature(categoryId || id)}
+              >
+                Save
               </button>
-              <button className="btn_gray" onClick={() => setIsEdit(!isEdit)}>Cancel</button>
+              <button className={global.btn_gray} onClick={() => setIsEdit(!isEdit)}>Cancel</button>
             </div>
             :
-            <div>
-              <button className="btn_red mb-2" onClick={() => handleDelete(categoryId || id)}>Delete</button>
-              <button className="btn_blue" onClick={() => handleAddFeature(categoryId || id)}>Add
-                features
+            <div className="flex gap-2">
+              <button className={global.btn_red} onClick={() => handleDelete(categoryId || id)}>
+                Delete
+              </button>
+              <button className={global.btn_green} onClick={() => handleAddFeature(categoryId || id)}>
+                Add features
               </button>
             </div>}
         </div>
       </div>
       {childCategories.length > 0 && isShow ? childCategories.map((category) => {
-        return (
-          <CategoryRow key={category.id} {...category} />
-        )
-      }) : ""}
+          return (
+            <CategoryRow key={category.id} {...category} />
+          )
+        })
+        : ""}
     </div>
   )
 }
